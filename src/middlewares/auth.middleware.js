@@ -8,7 +8,6 @@ const authMiddleweres = (request, response, next)=>{
         if(!auth && !auth?.startsWith("Bearer ")){
             throw Error("unauthorized")
         }
-
         const token = auth.slice(7)
         request.user = jwt.verify(token, APP_SECRET )
         return next()

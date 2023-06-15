@@ -21,7 +21,6 @@ const storage = new CloudinaryStorage({
         },
     },
 })
-
 // const storage = multer.diskStorage({
 //     destination: (req, file, cb) => {
 //         cb(null, "uploads/")
