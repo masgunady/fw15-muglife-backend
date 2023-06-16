@@ -10,6 +10,9 @@ router.get("/", (request, response) => {
 
 router.use("/auth", require("./auth.router"))
 router.use("/categories", require("../routers/category.router"))
+router.use("/products", require("./products.router"))
+router.use("/delivery-method", require("./delivery.router"))
+
 
 
 router.use("*", (request, response) => {
