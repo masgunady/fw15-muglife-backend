@@ -11,6 +11,14 @@ const errorHandler = (response, err) => {
             message: "Password and confirm password does not match"
         })
     }
+
+    if(err?.message === "add_category_failed") {
+        return response.status(400).json({
+            success: false,
+            message: "Add category failed"
+        })
+    }
+
     console.log(err)
     return response.status(500).json({
         success: false,
