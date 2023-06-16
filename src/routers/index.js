@@ -8,7 +8,7 @@ router.get("/", (request, response) => {
     })
 })
 
-// router.use("/auth", require("./auth.router"))
+router.use("/auth", require("./auth.router"))
 
 
 router.use("*", (request, response) => {
