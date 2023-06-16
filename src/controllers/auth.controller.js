@@ -6,6 +6,28 @@ const jwt = require("jsonwebtoken")
 const { APP_SECRET } = process.env
 const argon = require("argon2")
 
+exports.login = async (req, res) => {
+    try {
+        const { email, password } = req.body
+        const user = await userModel.findOneByEmail(email)
+        if (!user) {
+            throw Error("wrong_email")
+        }
+        const verify = await argon.verify(user.password, password)
+        if (!verify) {
+            throw Error("wrong_password")
+        }
+        const token = jwt.sign({ id: user.id, role: user.role }, APP_SECRET)
+        return res.json({
+            success: true,
+            message: "Login success!",
+            results: { token },
+        })
+    } catch (err) {
+        return errorHandler(res, err)
+    }
+}
+
 exports.register = async (request, response) => {
     try {
         const role = 2
@@ -25,12 +47,11 @@ exports.register = async (request, response) => {
             password: hash,
             roleId: role
         }
-        console.log(data)
         const user = await userModel.insert(data)
-        console.log("tes")
         const profileData = {
             userId: user.id
         }
+        console.log(profileData)
         await profileModel.insert(profileData)
         const token = jwt.sign({id: user.id}, APP_SECRET)
         console.log(token)
