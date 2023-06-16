@@ -1,5 +1,5 @@
 const router = require("express").Router()
-// const authMiddleware = require("../middlewares/auth.middlewares")
+const authMiddleware = require("../middlewares/auth.middleware")
 
 router.get("/", (request, response) => {
     return response.json({
@@ -9,7 +9,7 @@ router.get("/", (request, response) => {
 })
 
 router.use("/auth", require("./auth.router"))
-
+router.use("/changePassword", authMiddleware, require("./changePassword.router"))
 
 router.use("*", (request, response) => {
     return response.status(404).json({
