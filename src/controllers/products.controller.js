@@ -1,6 +1,8 @@
 const errorHandler = require("../helpers/errorHandler.helper")
 // const fileRemover = require("../helpers/fileRemover.helper")
 const productsModel = require("../models/products.model")
+const deliveryModel = require("../models/delivery.model")
+const catgeoryModel = require("../models/category.model")
 // const userModel = require("../models/user.model")
 
 exports.getAllProducts = async(req, res) => {
@@ -65,8 +67,24 @@ exports.createProducts = async (req,res) => {
         // }
 
         const data = {
-            ...req.body
+            ...req.body,
         }
+
+        console.log(data)
+        const deliveryMethod = await deliveryModel.findOne(data.product_delivery_id)
+        if(!deliveryMethod){
+            throw Error("delivery_method_not_found")
+        }
+
+        const categoryProduct = await catgeoryModel.findOne(data.product_category_id)
+        if(!categoryProduct){
+            throw Error("product_category_not_found")
+        }
+
+        if (req.file) {
+            data.picture = req.file.path
+        }
+
         const products = await productsModel.insert(data)
         return res.json({
             success: true,
