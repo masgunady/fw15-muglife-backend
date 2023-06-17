@@ -5,6 +5,12 @@ const errorHandler = (response, err) => {
             message: "Wrong Email"
         })
     }
+    if(err?.message.includes("users_email_key")) {
+        return response.status(404).json({
+            success: false,
+            message: "Error: e-mail already in use"
+        })
+    }
     if(err?.message === "password_unmatch") {
         return response.status(404).json({
             success: false,
