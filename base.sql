@@ -8,14 +8,17 @@ CREATE TABLE "users" (
     "createdAt" TIMESTAMP DEFAULT NOW(),
     "updatedAt" TIMESTAMP DEFAULT NULL
 );
+DROP TABLE "profile", "users";
 CREATE TABLE "profile" (
     "id" INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     "userId" INTEGER,
+    "orderedId" INTEGER,
     "picture" VARCHAR(255),
     "fullName" VARCHAR(255),
-    "job" VARCHAR(255),
-    "about" VARCHAR(255),
+    "address" VARCHAR(255),
+    "gender" BOOLEAN,
     "username" VARCHAR(255),
+    "birthDate" DATE,
     "createdAt" TIMESTAMP DEFAULT NOW(),
     "updatedAt" TIMESTAMP DEFAULT NULL
 );
