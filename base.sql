@@ -41,6 +41,19 @@ CREATE TABLE "products" (
     "updatedAt" TIMESTAMP DEFAULT NULL
 );
 
+CREATE TABLE "vouchers" (
+    "id" INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    "picture" VARCHAR(255),
+    "name" VARCHAR(255),
+    "code" VARCHAR(255),
+    "percentage" INTEGER,
+    "maxAmount" NUMERIC(10,2),
+    "descriptions" TEXT,
+    "expiredIn" TIMESTAMP,
+    "createdAt" TIMESTAMP DEFAULT NOW(),
+    "updatedAt" TIMESTAMP DEFAULT NULL
+);
+
 CREATE TABLE "productDeliveryMethods" (
     "id" INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     "name" VARCHAR(255),

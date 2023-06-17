@@ -32,10 +32,24 @@ const errorHandler = (response, err) => {
         })
     }
 
+    if(err?.message === "voucher_not_found") {
+        return response.status(404).json({
+            success: false,
+            message: "Voucher not Found"
+        })
+    }
+
     if(err?.message === "add_category_failed") {
         return response.status(400).json({
             success: false,
             message: "Add category failed"
+        })
+    }
+
+    if(err?.message === "create_voucher_failed") {
+        return response.status(400).json({
+            success: false,
+            message: "Create Voucher failed"
         })
     }
 
