@@ -73,9 +73,7 @@ exports.forgotPassword = async (req, res) => {
         if (!user) {
             throw Error("wrong_email")
         }
-        const forgot = await forgotRequestModel.insert({
-            email: user.email
-        })
+        const forgot = await forgotRequestModel.insert(email)
         if (!forgot) {
             throw Error("forgot_failed")
         }
@@ -92,19 +90,27 @@ exports.forgotPassword = async (req, res) => {
 exports.resetPassword = async (req, res) => {
     try {
         const { email, newPassword, confirmPassword } = req.body
-        const selectedUser = await userModel.findOneByEmail(email)
-        const data = {
-            password: await argon.hash(newPassword, confirmPassword)
+        const emailRequest = await forgotRequestModel.findOneByEmail(email)
+        if(!emailRequest){
+            throw Error("email_request_not_found")
         }
+
         if(newPassword !== confirmPassword){
             throw Error("password_unmatch")
         }
-        const user = await userModel.update(selectedUser.email, data)
+
+        const data = {
+            email,
+            password: await argon.hash(newPassword, confirmPassword)
+        }
+        const userData = await userModel.findOneByEmail(email)
+        
+        const user = await userModel.update(userData.id, data)
         if (!user) {
             throw Error("no_forgot_request")
         }
-        const selectedForgotRequest = await forgotRequestModel.findOneByEmail(selectedUser)
-        await forgotRequestModel.destroy(selectedForgotRequest.id)
+        const deleteRequest = await forgotRequestModel.destroyByEmail(email)
+        console.log(deleteRequest)
         return res.json({
             success: true,
             message: "Reset password success!",
