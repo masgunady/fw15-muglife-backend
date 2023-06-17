@@ -5,21 +5,16 @@ const deliveryModel = require("../models/delivery.model")
 const catgeoryModel = require("../models/category.model")
 // const userModel = require("../models/user.model")
 
-exports.getAllProducts = async(req, res) => {
+exports.getAllProducts = async function (req, res) {
     try {
-        const allProducts = await productsModel.findAll(
-            req.query.page, 
-            req.query.limit, 
-            req.query.search, 
-            req.query.sort, 
-            req.query.sortBy
+        const { rows: results, pageInfo } = await productsModel.findAll(
+            req.query
         )
-        console.log(allProducts)
-
         return res.json({
             success: true,
-            message: "Products",
-            results: allProducts
+            message: "List of all Products",
+            pageInfo,
+            results,
         })
     } catch (err) {
         return errorHandler(res, err)
