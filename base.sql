@@ -29,14 +29,12 @@ CREATE TABLE "categories" (
     "updatedAt" TIMESTAMP DEFAULT NULL
 );
 
-CREATE TABLE "product" (
+CREATE TABLE "products" (
     "id" INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     "picture" VARCHAR(255),
     "name" VARCHAR(255),
-    "price" VARCHAR(255),
     "descriptions" VARCHAR(255),
-    "stock" VARCHAR(255),
-    "productSizeId" INTEGER,
+    "variant" json,
     "product_delivery_id" INTEGER,
     "product_category_id" INTEGER,
     "createdAt" TIMESTAMP DEFAULT NOW(),
