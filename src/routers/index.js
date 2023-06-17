@@ -9,10 +9,9 @@ router.get("/", (request, response) => {
 })
 
 router.use("/auth", require("./auth.router"))
-
 router.use("/categories", require("../routers/category.router"))
 router.use("/changePassword", authMiddleware, require("./changePassword.router"))
-
+router.use("/profile", authMiddleware, require("./profile.router"))
 
 router.use("*", (request, response) => {
     return response.status(404).json({

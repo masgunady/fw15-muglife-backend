@@ -48,6 +48,7 @@ exports.register = async (request, response) => {
             roleId: role
         }
         const user = await userModel.insert(data)
+        console.log("test")
         const profileData = {
             userId: user.id
         }
