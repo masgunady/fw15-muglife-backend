@@ -13,6 +13,8 @@ exports.insert = async function (data) {
 exports.findOneByUserId = async function (userId) {
     const query = `
     SELECT
+    "p"."id",
+    "p"."orderedId",
     "p"."picture",
     "p"."username",
     "p"."fullName",
@@ -21,7 +23,6 @@ exports.findOneByUserId = async function (userId) {
     "p"."gender",
     "p"."address",
     "p"."birthDate",
-    "p"."orderedId",
     "p"."createdAt",
     "p"."updatedAt"
     FROM "profile" "p"
@@ -40,8 +41,6 @@ exports.updateByUserId = async function (userId, data) {
     "orderedId"=COALESCE(NULLIF($4::INTEGER, NULL), "orderedId"), 
     "picture"=COALESCE(NULLIF($2, NULL), "picture"), 
     "fullName"=COALESCE(NULLIF($3, ''), "fullName"),
-    "job"=COALESCE(NULLIF($4, ''), "job"), 
-    "about"=COALESCE(NULLIF($6, ''), "about"), 
     "username"=COALESCE(NULLIF($6, ''), "username"), 
     "gender"=COALESCE(NULLIF($5::BOOLEAN, NULL), "gender"), 
     "address"=COALESCE(NULLIF($7, ''), "address"), 
@@ -49,7 +48,7 @@ exports.updateByUserId = async function (userId, data) {
     WHERE "userId"=$1
     RETURNING *
     `
-    const values = [userId, data.picture, data.fullName, data.orderedId, data.gender, data.job, data.about, data.birthDate]
+    const values = [userId, data.picture, data.fullName, data.orderedId, data.gender, data.username, data.address, data.birthDate]
     const {rows} = await db.query(query, values)
     return rows[0]
 }
