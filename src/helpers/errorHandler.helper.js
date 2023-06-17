@@ -18,6 +18,20 @@ const errorHandler = (response, err) => {
         })
     }
 
+    if(err?.message === "delivery_method_not_found") {
+        return response.status(404).json({
+            success: false,
+            message: "Delivery Method not Found"
+        })
+    }
+
+    if(err?.message === "product_category_not_found") {
+        return response.status(404).json({
+            success: false,
+            message: "Product Category not Found"
+        })
+    }
+
     if(err?.message === "add_category_failed") {
         return response.status(400).json({
             success: false,

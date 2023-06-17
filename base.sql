@@ -28,6 +28,7 @@ CREATE TABLE "categories" (
     "createdAt" TIMESTAMP DEFAULT NOW(),
     "updatedAt" TIMESTAMP DEFAULT NULL
 );
+
 CREATE TABLE "product" (
     "id" INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     "picture" VARCHAR(255),
@@ -36,11 +37,12 @@ CREATE TABLE "product" (
     "descriptions" VARCHAR(255),
     "stock" VARCHAR(255),
     "productSizeId" INTEGER,
-    "productDeliveryId" INTEGER,
-    "productCategoryId" INTEGER,
+    "product_delivery_id" INTEGER,
+    "product_category_id" INTEGER,
     "createdAt" TIMESTAMP DEFAULT NOW(),
     "updatedAt" TIMESTAMP DEFAULT NULL
 );
+
 CREATE TABLE "productDeliveryMethods" (
     "id" INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     "name" VARCHAR(255),
