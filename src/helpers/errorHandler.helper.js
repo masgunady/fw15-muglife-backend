@@ -25,6 +25,13 @@ const errorHandler = (response, err) => {
         })
     }
 
+    if(err?.message === "products_not_found") {
+        return response.status(404).json({
+            success: false,
+            message: "Product not Found"
+        })
+    }
+
     if(err?.message === "product_category_not_found") {
         return response.status(404).json({
             success: false,
