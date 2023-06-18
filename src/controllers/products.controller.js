@@ -90,3 +90,25 @@ exports.createProducts = async (req,res) => {
         return errorHandler(res, err)
     }
 }
+
+exports.updateProduct = async (req, res)=>{
+    try {
+        const {id} = req.params
+        const checkProduct = await productsModel.findOne(id)     
+        if(!checkProduct){
+            throw Error("product_not_found")
+        } 
+        const data = {...req.body}
+        const updateProduct = await productsModel.update(id, data)
+        if(!updateProduct){
+            throw Error("product_update_failed")
+        }
+        return res.json({
+            success: true,
+            message: "Update Product Success",
+            results: updateProduct
+        })
+    } catch (err) {
+        return errorHandler(res, err)
+    }
+}

@@ -24,6 +24,8 @@ exports.findAll = async function (params) {
     "pr"."id",
     "pr"."picture",
     "c"."name" as "category",
+    "pr"."descriptions",
+    "pr"."variant",
     "pr"."createdAt",
     "pr"."updatedAt"
     FROM ${table} "pr"
@@ -149,7 +151,7 @@ exports.insert = async function(data){
     ("picture", "name", "descriptions", "variant", "product_delivery_id", product_category_id ) 
     VALUES ($1, $2, $3, $4, $5, $6) RETURNING *
     `  
-    const values = [data.picture, data.name, data.description, data.variant, data.product_delivery_id, data.product_category_id]   
+    const values = [data.picture, data.name, data.descriptions, data.variant, data.product_delivery_id, data.product_category_id]   
     const {rows} = await db.query(query, values)
     return rows[0]
 }
@@ -160,7 +162,7 @@ exports.update = async function(id, data){
     SET 
     "picture"=COALESCE(NULLIF($2, ''), "picture"), 
     "name"=COALESCE(NULLIF($3, ''), "name"), 
-    "description"=COALESCE(NULLIF($4, ''), "description"), 
+    "descriptions"=COALESCE(NULLIF($4::TEXT, NULL), "descriptions"), 
     "variant"=COALESCE(NULLIF($5::JSONB, NULL), "variant"), 
     "product_delivery_id"=COALESCE(NULLIF($6::INTEGER, NULL), "product_delivery_id"),
     "product_category_id"=COALESCE(NULLIF($7::INTEGER, NULL), "product_category_id")
@@ -168,10 +170,11 @@ exports.update = async function(id, data){
     WHERE "id"=$1
     RETURNING *
     `
-    const values = [id, data.picture, data.name, data.description, data.product_delivery_id, data.product_category_id]   
+    const values = [id, data.picture, data.name, data.descriptions, data.variant, data.product_delivery_id, data.product_category_id]   
     const {rows} = await db.query(query, values)
     return rows[0]
 }
+
 exports.updateByUserId = async function(userId, data){
     const query = `
     UPDATE "${table}" 
