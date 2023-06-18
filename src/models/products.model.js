@@ -35,7 +35,7 @@ exports.findAll = async function (params) {
     JOIN "productDeliveryMethods" AS "d" ON "d"."id" = "pr"."product_delivery_id"
     WHERE "pr"."name" ILIKE $1
     AND "c"."name" ILIKE $2
-    GROUP BY "pr"."id", "c"."name"
+    GROUP BY "pr"."id", "c"."name", "d"."name"
     ORDER BY ${params.sort} ${params.sortBy} LIMIT $3 OFFSET $4`
 
     const values = [
