@@ -22,6 +22,7 @@ exports.findAll = async function (params) {
     const query = `
     SELECT
     "pr"."id",
+    "pr"."name",
     "pr"."picture",
     "c"."name" as "category",
     "pr"."descriptions",
