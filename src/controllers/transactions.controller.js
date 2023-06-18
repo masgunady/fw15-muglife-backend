@@ -26,6 +26,8 @@ exports.getAllTransactions = async(req, res) => {
         return errorHandler(res, err)
     }
 }
+
+
 exports.createTransaction = async (req, res) => {
     try {
         const products = await productsModel.findItemByIdAndVariant(req.body.itemId, req.body.variant)
