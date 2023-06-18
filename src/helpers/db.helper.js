@@ -5,7 +5,7 @@ const db = new Pool({
 })
 
 db.connect().then(()=>{
-    console.log("Database connected!")
+    console.log("Database connected, gps!")
 }).catch((err) =>{
     console.log(err)
     console.log("Failed to connect to Database!")
