@@ -31,6 +31,20 @@ const errorHandler = (response, err) => {
             message: "Product not Found"
         })
     }
+    
+    if(err?.message === "delivery_method_not_found") {
+        return response.status(404).json({
+            success: false,
+            message: "Delivery method not found"
+        })
+    }
+    
+    if(err?.message === "category_not_found") {
+        return response.status(404).json({
+            success: false,
+            message: "Category not found"
+        })
+    }
 
     if(err?.message === "product_category_not_found") {
         return response.status(404).json({

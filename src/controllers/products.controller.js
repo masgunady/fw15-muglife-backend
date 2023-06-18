@@ -112,11 +112,29 @@ exports.createProducts = async (req,res) => {
 exports.updateProduct = async (req, res)=>{
     try {
         const {id} = req.params
-        const checkProduct = await productsModel.findOne(id)     
-        if(!checkProduct){
+        const products = await productsModel.findOne(id)  
+        console.log(products)   
+        if(!products){
             throw Error("product_not_found")
         } 
         const data = {...req.body}
+        console.log(data)
+        if (req.file) {
+            data.picture = req.file.path
+        }
+
+        if(data.product_category_id){
+            const category = await catgeoryModel.findOne(data.product_category_id)
+            if(!category){
+                throw Error("category_not_found")
+            }
+        }
+        if(data.product_delivery_id){
+            const deliveryData = await deliveryModel.findOne(data.product_delivery_id)
+            if(!deliveryData){
+                throw Error("delivery_method_not_found")
+            }
+        }
         const updateProduct = await productsModel.update(id, data)
         if(!updateProduct){
             throw Error("product_update_failed")
