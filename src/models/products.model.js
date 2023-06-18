@@ -57,7 +57,17 @@ exports.findAll = async function (params) {
 
 exports.findOne = async function(id){
     const query = `
-    SELECT * FROM "${table}"
+    SELECT
+    "id",
+    "name",
+    "picture",
+    "name" as "category",
+    "descriptions",
+    "variant",
+    "createdAt",
+    "updatedAt"
+     
+    FROM "${table}"
     WHERE "id"=$1
     `
     const values = [id]

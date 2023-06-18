@@ -37,9 +37,27 @@ exports.getOneProducts = async (req, res) => {
         return errorHandler(res, error)
     }
 }
+
 exports.getOneProductsNonUser = async (req, res) => {
     try {
         const id = req.params.id
+        const products = await productsModel.findOne(id)
+        if(!products){
+            throw Error("products_not_found")
+        }
+        return res.json({
+            success: true,
+            message: "Products",
+            results: products
+        })
+    } catch (error) {
+        return errorHandler(res, error)
+    }
+}
+
+exports.getOne = async (req, res) => {
+    try {
+        const {id} = req.params
         const products = await productsModel.findOne(id)
         if(!products){
             throw Error("products_not_found")
