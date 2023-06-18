@@ -7,7 +7,7 @@ const productsController = require("../controllers/products.controller")
 products.get("/", productsController.getAllProducts)
 products.get("/:id", productsController.getOneProductsNonUser)
 products.post("/admin/",  uploadMiddleware("picture"), productsController.createProducts)
-// products.patch("/", uploadMiddleware("picture"), productsController.updateProfile)
+products.patch("/admin/:id", uploadMiddleware("picture"), productsController.updateProduct)
 
 module.exports = products
 

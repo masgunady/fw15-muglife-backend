@@ -46,6 +46,13 @@ const errorHandler = (response, err) => {
         })
     }
 
+    if(err?.message === "product_not_found") {
+        return response.status(404).json({
+            success: false,
+            message: "Product not Found"
+        })
+    }
+
     if(err?.message === "add_category_failed") {
         return response.status(400).json({
             success: false,
@@ -57,6 +64,13 @@ const errorHandler = (response, err) => {
         return response.status(400).json({
             success: false,
             message: "Reset Password Failed"
+        })
+    }
+
+    if(err?.message === "product_update_failed") {
+        return response.status(400).json({
+            success: false,
+            message: "Update Product Failed"
         })
     }
 
