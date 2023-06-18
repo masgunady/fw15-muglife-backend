@@ -25,12 +25,14 @@ exports.findAll = async function (params) {
     "pr"."name",
     "pr"."picture",
     "c"."name" as "category",
+    "d"."name" as "deliveryMethod",
     "pr"."descriptions",
     "pr"."variant",
     "pr"."createdAt",
     "pr"."updatedAt"
     FROM ${table} "pr"
     JOIN "categories" AS "c" ON "c"."id" = "pr"."product_category_id"
+    JOIN "productDeliveryMethods" AS "d" ON "d"."id" = "pr"."product_delivery_id"
     WHERE "pr"."name" ILIKE $1
     AND "c"."name" ILIKE $2
     GROUP BY "pr"."id", "c"."name"
@@ -58,17 +60,17 @@ exports.findAll = async function (params) {
 exports.findOne = async function(id){
     const query = `
     SELECT
-    "id",
-    "name",
-    "picture",
-    "name" as "category",
-    "descriptions",
-    "variant",
-    "createdAt",
-    "updatedAt"
-     
-    FROM "${table}"
-    WHERE "id"=$1
+    "pr"."id",
+    "pr"."name",
+    "pr"."picture",
+    "d"."name" as "deliveryMethod",
+    "pr"."descriptions",
+    "pr"."variant",
+    "pr"."createdAt",
+    "pr"."updatedAt"
+    FROM ${table} "pr"
+    JOIN "productDeliveryMethods" AS "d" ON "d"."id" = "pr"."product_delivery_id"
+    WHERE "pr"."id"=$1
     `
     const values = [id]
     const {rows} = await db.query(query, values)
