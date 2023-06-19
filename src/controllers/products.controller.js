@@ -148,3 +148,21 @@ exports.updateProduct = async (req, res)=>{
         return errorHandler(res, err)
     }
 }
+
+exports.deleteProduct = async (req, res)=>{
+    try {
+        const {id} = req.params
+        const dataProduct = await productsModel.findOne(id)
+        if(dataProduct){
+            throw Error("product_not_found")
+        }
+        const dltProduct = await productsModel.destroy(id)
+        return res.json({
+            success: true,
+            message: "Delete Product success",
+            results: dltProduct
+        })
+    } catch (error) {
+        return errorHandler(res, error)
+    }
+}
