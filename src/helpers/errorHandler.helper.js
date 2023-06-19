@@ -46,6 +46,13 @@ const errorHandler = (response, err) => {
         })
     }
 
+    if(err?.message === "user_not_found") {
+        return response.status(404).json({
+            success: false,
+            message: "User not found"
+        })
+    }
+
     if(err?.message === "product_category_not_found") {
         return response.status(404).json({
             success: false,
