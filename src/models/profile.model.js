@@ -19,6 +19,7 @@ exports.findOneByUserId = async function (userId) {
     "p"."username",
     "p"."fullName",
     "u"."email",
+    "r"."code" as "role",
     "u"."phoneNumber",
     "p"."gender",
     "p"."address",
@@ -27,6 +28,7 @@ exports.findOneByUserId = async function (userId) {
     "p"."updatedAt"
     FROM "profile" "p"
     JOIN "users" "u" ON "u"."id" = "p"."userId"
+    JOIN "roles" "r" ON "r"."id" = "u"."roleId"
     WHERE "p"."userId"=$1
     `
     const values = [userId]
