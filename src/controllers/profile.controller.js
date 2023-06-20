@@ -23,7 +23,7 @@ exports.updateProfile = async (request, response) => {
             //     deleteImageFromCloudinary(data)
             // }
             data.picture = request.file.path
-            // data.picture = request.file.filename
+        // data.picture = request.file.filename
         }
         console.log("tes")
         const profile = await profileModel.updateByUserId(id, data)
