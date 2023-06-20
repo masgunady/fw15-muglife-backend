@@ -78,16 +78,16 @@ exports.findOne = async function(id){
 }
 
 
-exports.findOneByIdAndVariant = async function(id, code){
+exports.findItemByIdAndVariant = async function(id, code){
     const query = `
     SELECT 
     id,
     name,
-    decription,
-    "sku",
+    descriptions,
+    "sku"
     FROM ${table} 
     CROSS JOIN jsonb_array_elements("variant") as "sku"
-    WHERE "sku"->> "code" ANY($2) AND id ANY($1)
+    WHERE "sku"->> 'code' = ANY($2) AND id = ANY($1)
     `
     const values = [id, code]
     const {rows} = await db.query(query, values)
@@ -99,8 +99,8 @@ exports.updateQty = async function(id, code, qty){
     with product as (
         SELECT ('{'||index-1||', quantity}')::TEXT[] as path
         FROM ${table}, jsonb_array_elements(variant) with ordinality arr(sku, index)
-        WHERE sku->> "code" = $2 AND id = $1
-    ) UPDATE products SET variant = jsonb_set(variant, product.path, '${qty}'), false) FROM product
+        WHERE sku->> 'code' = $2 AND id = $1
+    ) UPDATE products SET variant = jsonb_set(variant, product.path, '${qty}', false) FROM product
     WHERE id=$1
     RETURNING *`
 
