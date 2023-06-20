@@ -72,7 +72,7 @@ exports.createTransaction = async (req, res) => {
             total,
             items: JSON.stringify(items)
         })
-        console.log(results.invoiceNum)
+        console.log( results)
         const uQty = products.reduce((prev, item) => {
             // console.log(item.sku.quantity)
             // console.log(item.sku.reqQuantity)

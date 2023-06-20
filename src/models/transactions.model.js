@@ -20,16 +20,16 @@ exports.findAll = async function(page, limit, search, sort, sortBy){
     const {rows} = await db.query(query, values)
     return rows
 }
-exports.insert = async function(data){
-    const query = `
-    INSERT INTO "${table}" 
-    ("invoiceNum", "total", "items", "voucherId" ) 
-    VALUES ($1, $2, $3) RETURNING *
-    `  
-    const values = [data.invoiceNum, data.total, data.items]   
-    const {rows} = await db.query(query, values)
-    return rows[0]
-}
+// exports.insert = async function(data){
+//     const query = `
+//     INSERT INTO "${table}" 
+//     ("invoiceNum", "total", "items", "voucherId" ) 
+//     VALUES ($1, $2, $3) RETURNING *
+//     `  
+//     const values = [data.invoiceNum, data.total, data.items]   
+//     const {rows} = await db.query(query, values)
+//     return rows[0]
+// }
 exports.findItemByIdAndVariant = async (id, code) => {
     const query = `
     SELECT id, 
@@ -50,7 +50,7 @@ exports.insert = async (data) => {
     ($1, $2, $3, $4)
     RETURNING *
     `
-    const values = [data.invoiceNmu, data.total, data.items, data.voucherId]   
+    const values = [data.invoiceNum, data.total, data.items, data.voucherId]   
     const {rows} = await db.query(query, values)
     return rows
 } 
