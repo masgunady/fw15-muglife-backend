@@ -14,6 +14,7 @@ exports.findOneByUserId = async function (userId) {
     const query = `
     SELECT
     "p"."id",
+    "u"."id" AS "user_id",
     "p"."orderedId",
     "p"."picture",
     "p"."username",
