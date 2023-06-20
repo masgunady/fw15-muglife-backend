@@ -29,6 +29,7 @@ exports.getAllTransactions = async(req, res) => {
 
 
 exports.createTransaction = async (req, res) => {
+    console.log(req.body)
     try {
         const products = await productsModel.findItemByIdAndVariant(req.body.itemId, req.body.variant)
        
@@ -80,7 +81,7 @@ exports.createTransaction = async (req, res) => {
             prev.push(calc)
             return prev
         },[])
-        console.log(uQty)
+        // console.log(uQty)
         let updateCount = 0
         for(const item of items){
             await productsModel.updateQty(item.id, item.code, uQty[updateCount])

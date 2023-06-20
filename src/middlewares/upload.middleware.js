@@ -37,8 +37,17 @@ const limits = {
     fileSize: 1 * 1024 * 1024
 }
 
+// const fileFilter = (req, file, cb) => {
+//     if(file.mimetype !== "image/jpeg"){
+//         cb(Error("fileformat_error"))
+//     }
+//     cb(null, true)
+// }
+
 const fileFilter = (req, file, cb) => {
-    if(file.mimetype !== "image/jpeg"){
+    const fileTypes = /jpeg|jpg|png/
+    const mimeType = fileTypes.test(file.mimetype)
+    if(!mimeType){
         cb(Error("fileformat_error"))
     }
     cb(null, true)
