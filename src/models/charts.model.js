@@ -19,3 +19,15 @@ exports.insert = async function (data) {
     const { rows } = await db.query(query, values)
     return rows[0]
 }
+
+exports.destroy = async(id)=>{
+    const queries = `
+  DELETE FROM "charts"
+  WHERE "user_id"=$1
+  RETURNING *
+  `
+    const values = [id]
+
+    const {rows} = await db.query(queries, values)
+    return rows[0]
+}

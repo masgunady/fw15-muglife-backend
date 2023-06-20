@@ -3,19 +3,21 @@ const errorHandler = require("../helpers/errorHandler.helper")
 // const fileRemover = require("../helpers/fileRemover.helper")
 const transactionsModel = require("../models/transactions.model")
 const productsModel = require("../models/products.model")
+const chartsModel = require("../models/charts.model")
 const { customAlphabet } = require("nanoid")
 // const userModel = require("../models/user.model")
 
 exports.getAllTransactions = async(req, res) => {
     try {
+        const {id} = req.user
         const transactions = await transactionsModel.findAll(
+            id,
             req.query.page, 
             req.query.limit, 
             req.query.search, 
             req.query.sort, 
             req.query.sortBy
         )
-        console.log(transactions)
 
         return res.json({
             success: true,
@@ -29,10 +31,12 @@ exports.getAllTransactions = async(req, res) => {
 
 
 exports.createTransaction = async (req, res) => {
-    console.log(req.body)
     try {
+        const {id} = req.user
+        const status_payment = 1
+        const payment_method = null
         const products = await productsModel.findItemByIdAndVariant(req.body.itemId, req.body.variant)
-       
+        console.log(products)
         req.body.variant.forEach((code, varIndex) => {
             products.forEach((product, index)=> {
                 if(product.sku.code === code){
@@ -67,16 +71,18 @@ exports.createTransaction = async (req, res) => {
             quantity: item.sku.reqQuantity
         })) 
         const total = items.reduce((prev, item) => prev + item.total, 0)
-        console.log(invoiceNum)
+        // console.log(invoiceNum)
         const results = await transactionsModel.insert({
+            id,
+            status_payment,
+            payment_method,
             invoiceNum,
             total,
             items: JSON.stringify(items)
         })
-        console.log( results)
+        // console.log( results)
         const uQty = products.reduce((prev, item) => {
-            // console.log(item.sku.quantity)
-            // console.log(item.sku.reqQuantity)
+
             const calc = item.sku.quantity - item.sku.reqQuantity
             prev.push(calc)
             return prev
@@ -87,6 +93,9 @@ exports.createTransaction = async (req, res) => {
             await productsModel.updateQty(item.id, item.code, uQty[updateCount])
             updateCount++
         }
+
+        //delete cart
+        await chartsModel.destroy(id)
 
         return res.json({
             success: true,

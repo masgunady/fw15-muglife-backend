@@ -83,6 +83,7 @@ exports.findItemByIdAndVariant = async function(id, code){
     SELECT 
     id,
     name,
+    picture,
     descriptions,
     "sku"
     FROM ${table} 
