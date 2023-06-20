@@ -2,7 +2,7 @@ const errorHandler = require("../helpers/errorHandler.helper")
 // const fileRemover = require("../../helpers/fileRemover.helper")
 const profileModel = require("../models/profile.model")
 const userModel = require("../models/users.model")
-const deleteImageFromCloudinary = require("../middlewares/upload.middleware")
+const {deleteImageFromCloudinary} = require("../middlewares/upload.middleware")
 
 exports.updateProfile = async (request, response) => {
     try {
