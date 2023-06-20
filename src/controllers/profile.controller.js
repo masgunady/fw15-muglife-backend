@@ -2,7 +2,7 @@ const errorHandler = require("../helpers/errorHandler.helper")
 // const fileRemover = require("../../helpers/fileRemover.helper")
 const profileModel = require("../models/profile.model")
 const userModel = require("../models/users.model")
-const {deleteImageFromCloudinary} = require("../middlewares/upload.middleware")
+// const {deleteImageFromCloudinary} = require("../middlewares/upload.middleware")
 
 exports.updateProfile = async (request, response) => {
     try {
@@ -16,14 +16,14 @@ exports.updateProfile = async (request, response) => {
             throw Error("unauthorized")
         }
         if(request.file) {
-            if(user.picture) {
-                const cloudinaryFolder = "Cup of Five"
-                const picture = user.picture.substring(user.picture.lastIndexOf("/") + 1, user.picture.lastIndexOf("."))
-                const data = cloudinaryFolder.concat("/", picture)
-                deleteImageFromCloudinary(data)
-            }
+            // if(user.picture) {
+            //     const cloudinaryFolder = "Cup of Five"
+            //     const picture = user.picture.substring(user.picture.lastIndexOf("/") + 1, user.picture.lastIndexOf("."))
+            //     const data = cloudinaryFolder.concat("/", picture)
+            //     deleteImageFromCloudinary(data)
+            // }
             data.picture = request.file.path
-            // data.picture = request.file.filename
+        // data.picture = request.file.filename
         }
         console.log("tes")
         const profile = await profileModel.updateByUserId(id, data)
