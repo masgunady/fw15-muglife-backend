@@ -161,10 +161,10 @@ exports.findOneByEmail = async function(email){
 exports.insert = async function(data){
     const query = `
     INSERT INTO "${table}" 
-    ("picture", "name", "descriptions", "variant", "product_delivery_id", product_category_id ) 
-    VALUES ($1, $2, $3, $4, $5, $6) RETURNING *
+    ("picture", "name", "descriptions", "variant", "product_delivery_id", product_category_id, start_delivery, end_delivery ) 
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *
     `  
-    const values = [data.picture, data.name, data.descriptions, data.variant, data.product_delivery_id, data.product_category_id]   
+    const values = [data.picture, data.name, data.descriptions, data.variant, data.product_delivery_id, data.product_category_id, data.start_delivery, data.end_delivery]   
     const {rows} = await db.query(query, values)
     return rows[0]
 }
