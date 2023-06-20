@@ -2,7 +2,7 @@ const db = require("../helpers/db.helper")
 
 const table = "transactions"
 
-exports.findAll = async function(page, limit, search, sort, sortBy){
+exports.findAll = async function(id, page, limit, search, sort, sortBy){
     page = parseInt(page) || 1
     limit = parseInt(limit) || 5
     search = search || ""
@@ -12,11 +12,12 @@ exports.findAll = async function(page, limit, search, sort, sortBy){
 
     const query = `
     SELECT * FROM "${table}" 
-    WHERE "invoiceNum" LIKE $3 
+    WHERE user_id = $1 AND status_payment = 1
     ORDER BY "${sort}" ${sortBy} 
-    LIMIT $1 OFFSET $2
+    LIMIT $2 OFFSET $3
     `
-    const values = [limit, offset, `%${search}%`]
+
+    const values = [id, limit, offset]
     const {rows} = await db.query(query, values)
     return rows
 }
@@ -44,13 +45,14 @@ exports.findItemByIdAndVariant = async (id, code) => {
     return rows
 }
 exports.insert = async (data) => {
+    console.log(data)
     const query = `
     INSERT INTO transactions
-    ("invoiceNum", "total", "items", "voucherId") VALUES
-    ($1, $2, $3, $4)
+    ("invoiceNum", "total", "items", "voucherId", "user_id", "status_payment", "payment_method") VALUES
+    ($1, $2, $3, $4, $5, $6, $7)
     RETURNING *
     `
-    const values = [data.invoiceNum, data.total, data.items, data.voucherId]   
+    const values = [data.invoiceNum, data.total, data.items, data.voucherId, data.id, data.status_payment, data.payment_method]   
     const {rows} = await db.query(query, values)
     return rows
 } 
