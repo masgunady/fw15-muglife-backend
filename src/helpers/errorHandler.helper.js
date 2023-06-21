@@ -1,4 +1,10 @@
 const errorHandler = (response, err) => {
+    if(err?.message === "wrong_password") {
+        return response.status(400).json({
+            success: false,
+            message: "Wrong Password"
+        })
+    }
     if(err?.message === "wrong_email") {
         return response.status(404).json({
             success: false,
