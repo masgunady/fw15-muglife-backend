@@ -28,6 +28,27 @@ exports.getAllTransactions = async(req, res) => {
         return errorHandler(res, err)
     }
 }
+exports.getAllTransactionsSuccess = async(req, res) => {
+    try {
+        const {id} = req.user
+        const transactions = await transactionsModel.findAllSuccess(
+            id,
+            req.query.page, 
+            req.query.limit, 
+            req.query.search, 
+            req.query.sort, 
+            req.query.sortBy
+        )
+
+        return res.json({
+            success: true,
+            message: "List of All Transactions",
+            results: transactions
+        })
+    } catch (err) {
+        return errorHandler(res, err)
+    }
+}
 
 
 exports.createTransaction = async (req, res) => {
@@ -36,7 +57,6 @@ exports.createTransaction = async (req, res) => {
         const status_payment = 1
         const payment_method = null
         const products = await productsModel.findItemByIdAndVariant(req.body.itemId, req.body.variant)
-        console.log(products)
         req.body.variant.forEach((code, varIndex) => {
             products.forEach((product, index)=> {
                 if(product.sku.code === code){
