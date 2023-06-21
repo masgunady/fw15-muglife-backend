@@ -1,6 +1,6 @@
 const db = require("../helpers/db.helper")
 
-exports.findOne = async function(){
+exports.findAll = async function(){
     const query =`
     SELECT * FROM "paymentMethod"`
 
