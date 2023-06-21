@@ -73,10 +73,10 @@ exports.forgotPassword = async (req, res) => {
         if (!user) {
             throw Error("wrong_email")
         }
-        const forgot = await forgotRequestModel.insert(email)
-        if (!forgot) {
-            throw Error("forgot_failed")
-        }
+        // const forgot = await forgotRequestModel.insert(email)
+        // if (!forgot) {
+        //     throw Error("forgot_failed")
+        // }
         return res.json({
             success: true,
             message: "Forgot password success!",
