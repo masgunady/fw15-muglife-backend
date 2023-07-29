@@ -36,6 +36,32 @@ exports.findOneByUserId = async function (userId) {
     const {rows} = await db.query(query, values)
     return rows[0]
 }
+exports.findByRoleId = async function (roleId) {
+    const query = `
+    SELECT
+    "p"."id",
+    "u"."id" AS "user_id",
+    "p"."orderedId",
+    "p"."picture",
+    "p"."username",
+    "p"."fullName",
+    "u"."email",
+    "r"."code" as "role",
+    "u"."phoneNumber",
+    "p"."gender",
+    "p"."address",
+    "p"."birthDate",
+    "p"."createdAt",
+    "p"."updatedAt"
+    FROM "profile" "p"
+    JOIN "users" "u" ON "u"."id" = "p"."userId"
+    JOIN "roles" "r" ON "r"."id" = "u"."roleId"
+    WHERE "u"."roleId"=$1
+    `
+    const values = [roleId]
+    const {rows} = await db.query(query, values)
+    return rows
+}
 
 exports.updateByUserId = async function (userId, data) {
     const query = `

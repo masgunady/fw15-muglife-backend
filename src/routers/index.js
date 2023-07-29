@@ -17,6 +17,7 @@ router.use("/changePassword", authMiddleware, require("./changePassword.router")
 router.use("/profile", authMiddleware, require("./profile.router"))
 router.use("/vouchers", authMiddleware, require("./voucher.router"))
 router.use("/charts", authMiddleware, require("./charts.router"))
+router.use("/chat", authMiddleware, require("./chat.router"))
 router.use("/payment-method", require("./paymentMethod.router"))
 
 router.use("*", (request, response) => {
