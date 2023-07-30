@@ -13,7 +13,8 @@ exports.findListConversation = async (id) => {
     "c"."user_2",
     "profile_2"."fullName" AS "fullName_2",
     "profile_2"."picture" AS "picture_2",
-    "cr"."message_content" AS "last_message"
+    "cr"."message_content" AS "last_message",
+    "cr"."createdAt" AS "time_message"
     FROM "${table}" "c"
     INNER JOIN (
         SELECT conversation_id, MAX(id) AS last_reply_id
@@ -23,7 +24,9 @@ exports.findListConversation = async (id) => {
     INNER JOIN conversation_replies cr ON max_replies.last_reply_id = cr.id
     INNER JOIN "profile" "profile_1" ON "c"."user_1" = "profile_1"."userId"
     INNER JOIN "profile" "profile_2" ON "c"."user_2" = "profile_2"."userId"
-    WHERE user_1 = $1 OR user_2 = $1`
+    WHERE user_1 = $1 OR user_2 = $1
+    ORDER BY "cr"."createdAt" DESC
+    `
 
     const values = [id]
     const {rows} = await db.query(query, values)
